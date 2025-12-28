@@ -79,6 +79,12 @@
             border-radius: 5px;
             overflow-x: auto;
         }
+        .course-outline {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -102,15 +108,125 @@
         </div>
         
         <div id="main-content" style="display:none;">
-            <h2>课程列表</h2>
-            <div id="lessons-container"></div>
+            <h2>Python全栈学习课程</h2>
+            <div class="course-outline">
+                <h3>课程大纲</h3>
+                <p>本课程涵盖Python全栈开发的完整知识体系，从基础语法到高级应用，包括爬虫、逆向工程、机器学习、微服务等高级主题。</p>
+                <p>学习路径：基础 → 进阶 → 高级 → 项目实战</p>
+            </div>
+            <h3>课程列表</h3>
+            <div id="lessons-container">
+                <h3>基础课程</h3>
+                <div class="lesson-item">
+                    <h3>1. Python基础语法</h3>
+                    <p>介绍Python的基本语法规则、变量、数据类型等基础概念</p>
+                    <button onclick="loadLesson(1)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>2. 变量和数据类型</h3>
+                    <p>深入学习Python中的各种数据类型：整数、浮点数、字符串、布尔值等</p>
+                    <button onclick="loadLesson(2)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>3. 条件语句</h3>
+                    <p>学习if、elif、else语句，掌握程序的分支逻辑</p>
+                    <button onclick="loadLesson(3)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>4. 循环语句</h3>
+                    <p>学习for和while循环，掌握重复执行代码块的方法</p>
+                    <button onclick="loadLesson(4)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>5. 函数定义</h3>
+                    <p>学习如何定义和使用函数，理解参数和返回值的概念</p>
+                    <button onclick="loadLesson(5)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>6. 列表操作</h3>
+                    <p>学习列表的创建、访问、修改和遍历等操作</p>
+                    <button onclick="loadLesson(6)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>7. 字典操作</h3>
+                    <p>学习字典的创建、访问、修改和遍历等操作</p>
+                    <button onclick="loadLesson(7)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>8. 文件操作</h3>
+                    <p>学习如何读写文件，处理文本和数据文件</p>
+                    <button onclick="loadLesson(8)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>9. 异常处理</h3>
+                    <p>学习try-except语句，处理程序中的错误和异常</p>
+                    <button onclick="loadLesson(9)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>10. 面向对象编程基础</h3>
+                    <p>学习类和对象的概念，掌握面向对象编程的基本方法</p>
+                    <button onclick="loadLesson(10)">开始学习</button>
+                </div>
+                <h3>中级课程</h3>
+                <div class="lesson-item">
+                    <h3>11. 模块和包</h3>
+                    <p>学习如何创建和使用模块，理解Python的包管理机制</p>
+                    <button onclick="loadLesson(11)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>12. 正则表达式</h3>
+                    <p>学习正则表达式的使用，掌握文本处理和模式匹配技巧</p>
+                    <button onclick="loadLesson(12)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>13. 网络爬虫基础</h3>
+                    <p>学习网络爬虫的基本概念和实现方法</p>
+                    <button onclick="loadLesson(13)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>14. 数据处理与分析</h3>
+                    <p>学习使用Python进行数据处理和分析的基本方法</p>
+                    <button onclick="loadLesson(14)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>15. Flask Web开发基础</h3>
+                    <p>学习使用Flask框架开发Web应用的基础知识</p>
+                    <button onclick="loadLesson(15)">开始学习</button>
+                </div>
+                <h3>高级课程</h3>
+                <div class="lesson-item">
+                    <h3>16. 数据库操作</h3>
+                    <p>学习使用SQLAlchemy进行数据库操作</p>
+                    <button onclick="loadLesson(16)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>17. 异步编程</h3>
+                    <p>学习async/await语法，掌握异步编程技术</p>
+                    <button onclick="loadLesson(17)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>18. 测试驱动开发</h3>
+                    <p>学习使用unittest进行单元测试</p>
+                    <button onclick="loadLesson(18)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>19. 设计模式</h3>
+                    <p>学习常见的软件设计模式及其Python实现</p>
+                    <button onclick="loadLesson(19)">开始学习</button>
+                </div>
+                <div class="lesson-item">
+                    <h3>20. 性能优化</h3>
+                    <p>学习Python程序的性能优化技巧</p>
+                    <button onclick="loadLesson(20)">开始学习</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         // 这里要填入你的 Workers URL
         // 在部署时请替换为你的实际 Workers URL
-        const API_BASE_URL = 'https://python-learning-api.1277053999.workers.dev';  // 部署时替换为你的Workers URL
+        const API_BASE_URL = 'https://python-learning-api.your-subdomain.workers.dev';  // 部署时替换为你的Workers URL
         
         let currentUser = null;
 
@@ -151,7 +267,9 @@
                     currentUser = result.user;
                     document.getElementById('login-section').style.display = 'none';
                     document.getElementById('main-content').style.display = 'block';
-                    loadLessons();
+                    
+                    // 重新设置课程列表
+                    loadStaticLessons();
                 } else {
                     alert('登录失败：' + result.message);
                 }
@@ -193,61 +311,9 @@
             }
         }
 
-        // 加载课程列表
-        async function loadLessons() {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/lessons`);
-                const lessons = await response.json();
-                
-                const container = document.getElementById('lessons-container');
-                container.innerHTML = '';
-                
-                // 按类型分组显示课程
-                const basicLessons = lessons.filter(lesson => lesson.lesson_type === 'basic');
-                const intermediateLessons = lessons.filter(lesson => lesson.lesson_type === 'intermediate');
-                const advancedLessons = lessons.filter(lesson => lesson.lesson_type === 'advanced');
-                
-                if (basicLessons.length > 0) {
-                    container.innerHTML += '<h3>基础课程</h3>';
-                    basicLessons.forEach(lesson => {
-                        const lessonDiv = document.createElement('div');
-                        lessonDiv.className = 'lesson-item';
-                        lessonDiv.innerHTML = `
-                            <h3>${lesson.title}</h3>
-                            <button onclick="loadLesson(${lesson.id})">开始学习</button>
-                        `;
-                        container.appendChild(lessonDiv);
-                    });
-                }
-                
-                if (intermediateLessons.length > 0) {
-                    container.innerHTML += '<h3>中级课程</h3>';
-                    intermediateLessons.forEach(lesson => {
-                        const lessonDiv = document.createElement('div');
-                        lessonDiv.className = 'lesson-item';
-                        lessonDiv.innerHTML = `
-                            <h3>${lesson.title}</h3>
-                            <button onclick="loadLesson(${lesson.id})">开始学习</button>
-                        `;
-                        container.appendChild(lessonDiv);
-                    });
-                }
-                
-                if (advancedLessons.length > 0) {
-                    container.innerHTML += '<h3>高级课程</h3>';
-                    advancedLessons.forEach(lesson => {
-                        const lessonDiv = document.createElement('div');
-                        lessonDiv.className = 'lesson-item';
-                        lessonDiv.innerHTML = `
-                            <h3>${lesson.title}</h3>
-                            <button onclick="loadLesson(${lesson.id})">开始学习</button>
-                        `;
-                        container.appendChild(lessonDiv);
-                    });
-                }
-            } catch (error) {
-                alert('加载课程失败：' + error.message);
-            }
+        // 加载静态课程列表
+        function loadStaticLessons() {
+            // 静态课程列表已直接在HTML中定义
         }
 
         // 加载特定课程
@@ -263,7 +329,7 @@
                     <h3>代码示例：</h3>
                     <textarea id="code-editor" placeholder="在此编写代码...">${lesson.code_template || ''}</textarea>
                     <button onclick="runCode()">运行代码</button>
-                    <button onclick="loadLessons()">返回课程列表</button>
+                    <button onclick="loadStaticLessons(); document.getElementById('main-content').innerHTML = document.getElementById('main-content').innerHTML">返回课程列表</button>
                     <div id="output"></div>
                 `;
             } catch (error) {
@@ -304,5 +370,5 @@
         });
     </script>
 </body>
-
 </html>
+
