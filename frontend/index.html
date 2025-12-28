@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python学习平台</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .lesson-item {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #code-editor {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #output {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        input {
+            display: block;
+            margin: 5px 0;
+            padding: 8px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .lesson-content {
+            line-height: 1.6;
+            margin: 15px 0;
+        }
+        .lesson-content h1, .lesson-content h2, .lesson-content h3 {
+            color: #333;
+        }
+        .lesson-content code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .lesson-content pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Python学习平台</h1>
+        <div id="login-section">
+            <h3>登录</h3>
+            <input type="text" id="login-username" placeholder="用户名">
+            <input type="password" id="login-password" placeholder="密码">
+            <button onclick="login()">登录</button>
+            <button onclick="showRegister()">注册</button>
+        </div>
+        
+        <div id="register-section" style="display:none;">
+            <h3>注册</h3>
+            <input type="text" id="register-username" placeholder="用户名">
+            <input type="email" id="register-email" placeholder="邮箱">
+            <input type="password" id="register-password" placeholder="密码">
+            <button onclick="register()">注册</button>
+            <button onclick="showLogin()">返回登录</button>
+        </div>
+        
+        <div id="main-content" style="display:none;">
+            <h2>课程列表</h2>
+            <div id="lessons-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // 这里要填入你的 Workers URL
+        // 在部署时请替换为你的实际 Workers URL
+        const API_BASE_URL = 'https://python-learning-api.your-subdomain.workers.dev';  // 部署时替换为你的Workers URL
+        
+        let currentUser = null;
+
+        // 显示注册页面
+        function showRegister() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('register-section').style.display = 'block';
+        }
+
+        // 显示登录页面
+        function showLogin() {
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        }
+
+        // 用户登录
+        async function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!username || !password) {
+                alert('请输入用户名和密码');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentUser = result.user;
+                    document.getElementById('login-section').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                    loadLessons();
+                } else {
+                    alert('登录失败：' + result.message);
+                }
+            } catch (error) {
+                alert('登录失败：' + error.message);
+            }
+        }
+
+        // 用户注册
+        async function register() {
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            
+            if (!username || !email || !password) {
+                alert('请填写所有字段');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, email, password })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert('注册成功！');
+                    showLogin();
+                } else {
+                    alert('注册失败：' + result.message);
+                }
+            } catch (error) {
+                alert('注册失败：' + error.message);
+            }
+        }
+
+        // 加载课程列表
+        async function loadLessons() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/lessons`);
+                const lessons = await response.json();
+                
+                const container = document.getElementById('lessons-container');
+                container.innerHTML = '';
+                
+                // 按类型分组显示课程
+                const basicLessons = lessons.filter(lesson => lesson.lesson_type === 'basic');
+                const intermediateLessons = lessons.filter(lesson => lesson.lesson_type === 'intermediate');
+                const advancedLessons = lessons.filter(lesson => lesson.lesson_type === 'advanced');
+                
+                if (basicLessons.length > 0) {
+                    container.innerHTML += '<h3>基础课程</h3>';
+                    basicLessons.forEach(lesson => {
+                        const lessonDiv = document.createElement('div');
+                        lessonDiv.className = 'lesson-item';
+                        lessonDiv.innerHTML = `
+                            <h3>${lesson.title}</h3>
+                            <button onclick="loadLesson(${lesson.id})">开始学习</button>
+                        `;
+                        container.appendChild(lessonDiv);
+                    });
+                }
+                
+                if (intermediateLessons.length > 0) {
+                    container.innerHTML += '<h3>中级课程</h3>';
+                    intermediateLessons.forEach(lesson => {
+                        const lessonDiv = document.createElement('div');
+                        lessonDiv.className = 'lesson-item';
+                        lessonDiv.innerHTML = `
+                            <h3>${lesson.title}</h3>
+                            <button onclick="loadLesson(${lesson.id})">开始学习</button>
+                        `;
+                        container.appendChild(lessonDiv);
+                    });
+                }
+                
+                if (advancedLessons.length > 0) {
+                    container.innerHTML += '<h3>高级课程</h3>';
+                    advancedLessons.forEach(lesson => {
+                        const lessonDiv = document.createElement('div');
+                        lessonDiv.className = 'lesson-item';
+                        lessonDiv.innerHTML = `
+                            <h3>${lesson.title}</h3>
+                            <button onclick="loadLesson(${lesson.id})">开始学习</button>
+                        `;
+                        container.appendChild(lessonDiv);
+                    });
+                }
+            } catch (error) {
+                alert('加载课程失败：' + error.message);
+            }
+        }
+
+        // 加载特定课程
+        async function loadLesson(lessonId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/lesson/${lessonId}`);
+                const lesson = await response.json();
+                
+                const container = document.getElementById('lessons-container');
+                container.innerHTML = `
+                    <h2>${lesson.title}</h2>
+                    <div class="lesson-content">${lesson.content}</div>
+                    <h3>代码示例：</h3>
+                    <textarea id="code-editor" placeholder="在此编写代码...">${lesson.code_template || ''}</textarea>
+                    <button onclick="runCode()">运行代码</button>
+                    <button onclick="loadLessons()">返回课程列表</button>
+                    <div id="output"></div>
+                `;
+            } catch (error) {
+                alert('加载课程失败：' + error.message);
+            }
+        }
+
+        // 运行代码
+        async function runCode() {
+            const code = document.getElementById('code-editor').value;
+            
+            if (!code.trim()) {
+                alert('请输入要执行的代码');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/execute`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ code: code })
+                });
+                
+                const result = await response.json();
+                document.getElementById('output').innerHTML = `<h3>执行结果：</h3><pre>${result.output}</pre>`;
+            } catch (error) {
+                alert('执行代码失败：' + error.message);
+            }
+        }
+        
+        // 页面加载时显示登录界面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 默认显示登录界面
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('main-content').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
